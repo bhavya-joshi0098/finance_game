@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teen Finance Learning Game</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.0/lottie.min.js"></script>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-darker: #161616;
+      --primary: #dd0031;
+      --text-light: #f5f5f5;
+      --card-bg: #1c1c1c;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow-x: hidden;
+    }
+
+    .hero-section, .section-dark, .section-darker {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-section {
+      height: 100vh;
+      background: linear-gradient(to right, #f09cae, #eb558a);
+      padding: 0 20px;
+    }
+
+    .feature-card {
+      background-color: var(--card-bg);
+      border: none;
+      border-radius: 12px;
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+    }
+
+    .lottie-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.25;
+    }
+
+    .hero-section > div,
+    .section-dark > div,
+    .section-darker > div {
+      position: relative;
+      z-index: 1;
+    }
+
+    footer {
+      position: relative;
+      z-index: 2;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-black">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold text-danger" href="#">TeenFinance</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <!-- Add Login Button -->
+        <li class="nav-item">
+          <a class="btn btn-success ms-5" href="/login"style="width: 95px; height: 40px;">Login</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero-section d-flex align-items-center justify-content-center text-center text-white" id="hero">
+  <div id="bg-hero" class="lottie-bg" style="opacity: 0.6;"></div>
+  <div>
+    <h1 class="display-4 fw-bold">Master Money Skills While You Play</h1>
+    <p class="lead mt-3">A gamified learning platform for teens to become finance smart — powered by AI</p>
+    <a href="/login" class="btn btn-light mt-4 px-4 py-2">Get Started</a>
+  </div>
+</section>
+
+<!-- Why Finance Matters -->
+<section class="section-dark py-5" id="why">
+  <!-- <div id="bg-why" class="lottie-bg"></div> -->
+  <div class="container" data-aos="fade-up">
+    <h2 class="text-center mb-4">Why Learn Finance Early?</h2>
+    <p class="text-center w-75 mx-auto">Financial education at a young age helps teens make smarter money decisions. Budgeting, saving, investing – our game teaches all this in a fun, interactive way.</p>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="section-darker py-5" id="features">
+  <div id="bg-features" class="lottie-bg" style="position: relative; width: 800px; height: 800px; margin-left: 250px; opacity: 0.5;z-index: 999;"></div>
+  <div class="container" data-aos="fade-up">
+    <h2 class="text-center mb-5">Features You'll Love</h2>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card feature-card h-100 text-white text-center p-4">
+          <h5 class="text-danger">🎮 Gamified Learning</h5>
+          <p>Play levels, earn coins, complete challenges, and learn real financial concepts.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card feature-card h-100 text-white text-center p-4">
+          <h5 class="text-danger">🤖 AI Mentor</h5>
+          <p>Ask finance questions and get simplified, smart answers instantly.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card feature-card h-100 text-white text-center p-4">
+          <h5 class="text-danger">📊 Smart Feedback</h5>
+          <p>After each quiz, get AI-generated suggestions to improve.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Screenshots / Demo -->
+<section class="section-dark py-5" id="demo">
+  <div class="container" data-aos="fade-up">
+    <h2 class="text-center mb-4">App Preview</h2>
+    <div class="text-center">
+      <img src="assets/demo-placeholder.png" alt="Demo Screenshot" class="img-fluid rounded shadow" width="700">
+    </div>
+  </div>
+      <!-- <a href="/login" class="btn btn-light" style="display: flex;justify-content: center; text-align: center; align-content: center;width: 120px; height: 55px;align-self: center;">Get Started</a> -->
+         <div class="d-flex justify-content-center mt-4">
+    <a href="/login" class="btn btn-light" style="width: 120px; height: 55px; align-self: center;">Get Started</a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="text-center text-white py-4 bg-black mt-5">
+  <p>© 2025 TeenFinance | Built with 💡 and ❤️</p>
+</footer>
+
+<!-- JS Libraries -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init({ duration: 1000 });
+
+  // Lottie Animations
+  lottie.loadAnimation({
+    container: document.getElementById('bg-hero'),
+    renderer: 'svg',
+    loop: true,
+    autoplay: true,
+    path: 'https://assets2.lottiefiles.com/packages/lf20_rnnlxazi.json' // Triangle shapes
+  });
+
+  // lottie.loadAnimation({
+  //   container: document.getElementById('bg-why'),
+  //   renderer: 'svg',
+  //   loop: true,
+  //   autoplay: true,
+  //   path: 'https://assets2.lottiefiles.com/packages/lf20_kxsd2ytq.json' // Bubble shapes
+  // });
+
+  lottie.loadAnimation({
+    container: document.getElementById('bg-features'),
+    renderer: 'svg',
+    loop: true,
+    autoplay: true,
+    path: 'https://lottie.host/88a44289-de40-4bfc-ad45-92b682f7560b/7DJg6NY4PX.json' // Dotted swirl
+  });
+</script>
+
+</body>
+</html>
