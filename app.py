@@ -39,5 +39,5 @@ def dashboard():
         # return redirect(url_for("login"))
     return render_template("dashboard.html", user=None)    
 # Run the Flask app
-if __name__ == "__main__":
-    app.run(debug=True)
+# if __name__ == "__main__":
+#     app.run(debug=True)
