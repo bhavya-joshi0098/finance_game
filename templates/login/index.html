@@ -4,42 +4,42 @@
   <title>Login</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <!-- <link rel="stylesheet" href="main.css"> -->
-   <style>
-    body {
-  background-color: #0583D2;
-  font-family: sans-serif;
-}
+    <style>
+      body {
+    background-color: #0583D2;
+    font-family: sans-serif;
+  }
 
-h1 {
-  font-family: "Fredoka One", cursive;
-  color: #0583D2;
-  letter-spacing: 0.1em;
-}
+  h1 {
+    font-family: "Fredoka One", cursive;
+    color: #0583D2;
+    letter-spacing: 0.1em;
+  }
 
-p span {
-  background: #fff;
-  padding: 0 10px;
-}
+  p span {
+    background: #fff;
+    padding: 0 10px;
+  }
 
-.card {
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-}
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  }
 
-.btn-primary {
-  background-color: #0583D2;
-  border: none;
-}
+  .btn-primary {
+    background-color: #0583D2;
+    border: none;
+  }
 
-.btn-primary:hover {
-  opacity: 0.8;
-  transition: 0.3s;
-}
+  .btn-primary:hover {
+    opacity: 0.8;
+    transition: 0.3s;
+  }
 
-.btn-link {
-  color: grey;
-  text-decoration: underline;
-}
-   </style>
+  .btn-link {
+    color: grey;
+    text-decoration: underline;
+  }
+    </style>
 </head>
 <body>
   <div class="container">
@@ -163,9 +163,18 @@ createacctbtn.addEventListener("click", async function() {
       const userCredential = await createUserWithEmailAndPassword(auth, signupEmail, signupPassword);
       const user = userCredential.user;
       await setDoc(doc(db, "users", user.uid), {
+        playerId: user.uid,
         name: name,
+        password: signupPassword,
         phone: phone,
-        email: signupEmail
+        email: signupEmail,
+        hightScore:{
+          level1: 0,
+          level2: 0,
+          level3: 0,
+          level4: 0,
+          level5: 0,
+        }
       });
       window.alert("Success! Account created.");
       location.reload();
@@ -216,11 +225,19 @@ googleLoginBtn.addEventListener("click", async function() {
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
     // Optionally, create user doc in Firestore if new
-    await setDoc(doc(db, "users", user.uid), {
+   await setDoc(doc(db, "users", user.uid), {
+        playerId: user.uid,
       name: user.displayName || "",
-      phone: user.phoneNumber || "",
-      email: user.email
-    }, { merge: true });
+      // phone: user.phoneNumber || "",
+      email: user.email,
+      hightScore: {
+        level1: 0,
+        level2: 0,
+        level3: 0,
+        level4: 0,
+        level5: 0,
+      }
+      });
     sessionStorage.setItem("loginSuccess", "true");
     window.alert("Success! Logged in with Google.");
     window.location.href = "/dashboard";

@@ -1,11 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Finance Game Dashboard</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #0583D2; 
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 50px auto;
+      padding: 30px;
+      background-color: white;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      font-family: "Fredoka One", cursive;
+      color: #0583D2;
+      letter-spacing: 0.1em;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .user-info {
+      margin-bottom: 20px;
+    }
+
+    .user-info p {
+      font-size: 16px;
+      margin: 10px 0;
+    }
+
+    .user-info span {
+      background: #e8f4ff;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .score-card {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .score-box {
+      background-color: #f0f0f0;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 18px;
+      color: #333;
+    }
+
+    .levels {
+      margin-top: 30px;
+    }
+
+    .level-button {
+      width: 100%;
+      padding: 15px;
+      background-color: #0583D2;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-bottom: 10px;
+      transition: 0.3s;
+    }
+
+    .level-button:hover {
+      opacity: 0.8;
+    }
+
+    .logout-btn {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: grey;
+      text-decoration: underline;
+      font-size: 14px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-    hello    
+
+  <div class="container">
+    <h1>Welcome to Finance Game</h1>
+
+    <div class="user-info">
+      <p><strong>Name:</strong> <span id="userName">Loading...</span></p>
+      <p><strong>Email:</strong> <span id="userEmail">Loading...</span></p>
+    </div>
+
+    <h3 style="text-align:center; color:#0583D2;">High Scores</h3>
+    <div class="score-card">
+      <div class="score-box">Level 1: <span id="score1">0</span></div>
+      <div class="score-box">Level 2: <span id="score2">0</span></div>
+      <div class="score-box">Level 3: <span id="score3">0</span></div>
+      <div class="score-box">Level 4: <span id="score4">0</span></div>
+      <div class="score-box">Level 5: <span id="score5">0</span></div>
+    </div>
+
+    <div class="levels">
+      <button class="level-button" onclick="startGame(1)">Start Level 1</button>
+      <button class="level-button" onclick="startGame(2)">Start Level 2</button>
+      <button class="level-button" onclick="startGame(3)">Start Level 3</button>
+      <button class="level-button" onclick="startGame(4)">Start Level 4</button>
+      <button class="level-button" onclick="startGame(5)">Start Level 5</button>
+    </div>
+
+    <div class="logout-btn" onclick="logout()">Logout</div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script> 
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script> 
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script> 
+
+  <!-- Your App JS -->
 </body>
 </html>
