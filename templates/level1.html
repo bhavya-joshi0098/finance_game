@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Finance Game - Level 1</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f5f7fa; }
+        .container { max-width: 600px; margin: 40px auto; background: #fff; padding: 32px; border-radius: 10px; box-shadow: 0 2px 8px #ccc; }
+        .question { margin-top: 24px; }
+        .options { margin-top: 16px; }
+        .options label { display: block; margin-bottom: 10px; }
+        .submit-btn { margin-top: 20px; }
+        .feedback { margin-top: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Level 1: Introduction to Money</h2>
+        <div class="learning">
+            {{ paragraph|safe }}
+        </div>
+        <form method="post">
+            <div class="question">
+                <strong>{{ question }}</strong>
+            </div>
+            <div class="options">
+                {% for option in options %}
+                <label>
+                    <input type="radio" name="answer" value="{{ option }}" required>
+                    {{ option }}
+                </label>
+                {% endfor %}
+            </div>
+            <button class="submit-btn" type="submit">Submit Answer</button>
+        </form>
+        {% if feedback %}
+        <div class="feedback">
+            {{ feedback }}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
