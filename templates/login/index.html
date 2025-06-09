@@ -55,6 +55,7 @@
               <div class="form-group">
                 <input id="password" type="password" class="form-control" placeholder="Password">
               </div>
+              <button id="forgot-password" class="btn btn-link">Forgot Password?</button>
               <button id="submit" class="btn btn-primary btn-block">Submit</button>
               <p class="text-center mt-3"><span>or</span></p>
               <button id="sign-up" class="btn btn-secondary btn-block">Sign Up</button>
@@ -97,6 +98,10 @@
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-analytics.js";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
 import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+import { sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+import { collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyBdkeUCyJwP1Ip4M05kyxksMGs3T0e_Z0c",
@@ -114,6 +119,7 @@ const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+const forgotPasswordButton = document.getElementById("forgot-password");
 const googleLoginBtn = document.getElementById("google-login");
 const submitButton = document.getElementById("submit");
 const signupButton = document.getElementById("sign-up");
@@ -193,19 +199,47 @@ submitButton.addEventListener("click", function() {
   password = passwordInput.value;
   console.log(password);
 
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      console.log("Success! Welcome back!");
-      window.alert("Success! Welcome back!");
-      sessionStorage.setItem("loginSuccess", "true");
-      window.location.href = "/dashboard"; // Redirect to the game page
+  // signInWithEmailAndPassword(auth, email, password)
+  //   .then((userCredential) => {
+  //     const user = userCredential.user;
+  //     console.log("Success! Welcome back!");
+  //     window.alert("Success! Welcome back!");
+  //     sessionStorage.setItem("loginSuccess", "true");
+  //     window.location.href = "/dashboard"; // Redirect to the game page
       
+  //   })
+  //   .catch((error) => {
+  //     const errorCode = error.code;
+  //     const errorMessage = error.message;
+  //     console.log("Error occurred. Try again.");
+  //     window.alert("Error occurred. Try again.");
+  //   });
+
+signInWithEmailAndPassword(auth, email, password)
+    .then(async (userCredential) => {
+      const user = userCredential.user;
+      // Correct modular Firestore query
+      try {
+        const q = query(collection(db, "users"), where("email", "==", email));
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          const userData = querySnapshot.docs[0].data();
+          sessionStorage.setItem("playerId", userData.playerId);
+        } else {
+          alert("Could not find player details. Please try again later.");
+        }
+      } catch (err) {
+        console.log("Could not fetch playerId:", err);
+        alert("Could not fetch playerId. Please try again later.");
+      }
+      sessionStorage.setItem("loginSuccess", "true");
+      window.alert("Success! Welcome back!");
+      window.location.href = "/dashboard";
     })
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
-      console.log("Error occurred. Try again.");
+      console.log("Error occurred. Try again.", errorCode, errorMessage);
       window.alert("Error occurred. Try again.");
     });
 });
@@ -245,6 +279,24 @@ googleLoginBtn.addEventListener("click", async function() {
     console.log(error.code, error.message);
     window.alert("Google login failed. Try again.");
   }
+});
+forgotPasswordButton.addEventListener("click", function() {
+  const email = emailInput.value;
+  if (!email) {
+    alert("Please enter your email address.");
+    return;
+  }
+
+  sendPasswordResetEmail(auth, email)
+    .then(() => {
+      alert("Password reset email sent! Check your inbox.");
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode, errorMessage);
+      showAlert("Error: " + errorMessage);
+    });
 });
 
    </script>

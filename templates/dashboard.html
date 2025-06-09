@@ -132,7 +132,69 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script> 
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script> 
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script> 
+  <!-- Add this script before </body> -->
+<script>
+  // Your Firebase config (should match your project)
+  const firebaseConfig = {
+    apiKey: "AIzaSyBdkeUCyJwP1Ip4M05kyxksMGs3T0e_Z0c",
+    authDomain: "finance-game-7c716.firebaseapp.com",
+    projectId: "finance-game-7c716",
+    storageBucket: "finance-game-7c716.appspot.com",
+    messagingSenderId: "100856364080",
+    appId: "1:100856364080:web:be1ca42f5a035be29c41f5"
+  };
 
-  <!-- Your App JS -->
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  // Fetch user data by playerId from sessionStorage
+  function loadUserDashboard() {
+    const playerId = sessionStorage.getItem("playerId");
+    if (!playerId) {
+      document.getElementById("userName").textContent = "Not found";
+      document.getElementById("userEmail").textContent = "Not found";
+      return;
+    }
+    db.collection("users").doc(playerId).get()
+      .then((doc) => {
+        if (doc.exists) {
+          const userData = doc.data();
+          document.getElementById("userName").textContent = userData.name || "N/A";
+          document.getElementById("userEmail").textContent = userData.email || "N/A";
+          document.getElementById("score1").textContent = userData.hightScore?.level1 ?? 0;
+          document.getElementById("score2").textContent = userData.hightScore?.level2 ?? 0;
+          document.getElementById("score3").textContent = userData.hightScore?.level3 ?? 0;
+          document.getElementById("score4").textContent = userData.hightScore?.level4 ?? 0;
+          document.getElementById("score5").textContent = userData.hightScore?.level5 ?? 0;
+        } else {
+          document.getElementById("userName").textContent = "Not found";
+          document.getElementById("userEmail").textContent = "Not found";
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching user:", error);
+        document.getElementById("userName").textContent = "Error";
+        document.getElementById("userEmail").textContent = "Error";
+      });
+  }
+
+  // Call on page load
+  loadUserDashboard();
+
+  // Dummy functions for buttons
+  function startGame(level) {
+    alert("Start Level " + level);
+  }
+  function logout() {
+    auth.signOut().then(() => {
+      window.location.href = "/login";
+      localStorage.removeItem("loginSuccess");
+      
+    });
+  }
+</script>
+
 </body>
 </html>
