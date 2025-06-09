@@ -97,7 +97,7 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-analytics.js";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
-import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 import { sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
 import { collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
@@ -225,6 +225,34 @@ signInWithEmailAndPassword(auth, email, password)
         if (!querySnapshot.empty) {
           const userData = querySnapshot.docs[0].data();
           sessionStorage.setItem("playerId", userData.playerId);
+          
+          // Store scores from localStorage to Firebase if they exist
+          const userRef = doc(db, "users", userData.playerId);
+          const scoresToUpdate = {};
+          
+          // Check and store scores for all levels
+          for (let level = 1; level <= 5; level++) {
+            const score = localStorage.getItem(`level${level}_score`);
+            const maxScore = localStorage.getItem(`level${level}_max_score`);
+            
+            if (score && maxScore) {
+              const currentScore = parseInt(score);
+              const currentMaxScore = parseInt(maxScore);
+              
+              // Only update if the score is higher than what's in Firebase
+              if (currentScore > (userData.hightScore?.[`level${level}`] || 0)) {
+                scoresToUpdate[`hightScore.level${level}`] = currentScore;
+                console.log(`Updating level ${level} score to ${currentScore}`);
+              }
+            }
+          }
+          
+          // Update Firebase if there are any scores to update
+          if (Object.keys(scoresToUpdate).length > 0) {
+            await setDoc(userRef, scoresToUpdate, { merge: true });
+            console.log("Scores updated in Firebase successfully");
+          }
+          
         } else {
           alert("Could not find player details. Please try again later.");
         }
@@ -258,11 +286,12 @@ googleLoginBtn.addEventListener("click", async function() {
   try {
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
-    // Optionally, create user doc in Firestore if new
-   await setDoc(doc(db, "users", user.uid), {
-        playerId: user.uid,
+    
+    // Create or update user doc in Firestore
+    const userRef = doc(db, "users", user.uid);
+    await setDoc(userRef, {
+      playerId: user.uid,
       name: user.displayName || "",
-      // phone: user.phoneNumber || "",
       email: user.email,
       hightScore: {
         level1: 0,
@@ -271,8 +300,41 @@ googleLoginBtn.addEventListener("click", async function() {
         level4: 0,
         level5: 0,
       }
-      });
+    }, { merge: true });
+    
+    // Store scores from localStorage to Firebase if they exist
+    const scoresToUpdate = {};
+    
+    // Check and store scores for all levels
+    for (let level = 1; level <= 5; level++) {
+      const score = localStorage.getItem(`level${level}_score`);
+      const maxScore = localStorage.getItem(`level${level}_max_score`);
+      
+      if (score && maxScore) {
+        const currentScore = parseInt(score);
+        const currentMaxScore = parseInt(maxScore);
+        
+        // Get current high score from Firebase
+        const userDoc = await getDoc(userRef);
+        const userData = userDoc.data();
+        const currentHighScore = userData?.hightScore?.[`level${level}`] || 0;
+        
+        // Only update if the score is higher
+        if (currentScore > currentHighScore) {
+          scoresToUpdate[`hightScore.level${level}`] = currentScore;
+          console.log(`Updating level ${level} score to ${currentScore}`);
+        }
+      }
+    }
+    
+    // Update Firebase if there are any scores to update
+    if (Object.keys(scoresToUpdate).length > 0) {
+      await setDoc(userRef, scoresToUpdate, { merge: true });
+      console.log("Scores updated in Firebase successfully");
+    }
+    
     sessionStorage.setItem("loginSuccess", "true");
+    sessionStorage.setItem("playerId", user.uid);
     window.alert("Success! Logged in with Google.");
     window.location.href = "/dashboard";
   } catch (error) {

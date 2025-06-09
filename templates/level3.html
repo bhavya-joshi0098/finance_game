@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Finance Game - Level 1</title>
+    <title>Finance Game - Level 3</title>
     <style>
         body { 
             font-family: Arial, sans-serif; 
@@ -92,7 +92,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h2>Level 1: Introduction to Money</h2>
+            <h2>Level 3: Investing Basics</h2>
             <div class="score">Score: {{ current_score }}/{{ total_questions * 5 }}</div>
         </div>
         <div class="learning">
@@ -123,8 +123,8 @@
             <h3 style="color: #2196F3; margin-bottom: 20px;">Level Complete!</h3>
             
             <div class="feedback-section" style="margin-bottom: 20px;">
-                <h4 style="color: #4CAF50;">🎉 {{feedback.congratulation}}</h4>
-                <p style="color: #666;">{{feedback.score_feedback}}</p>
+                <h4 style="color: #4CAF50;">🎉 {{ feedback.congratulation }}</h4>
+                <p style="color: #666;">{{ feedback.score_feedback }}</p>
             </div>
 
             <div class="strengths" style="margin-bottom: 20px;">
@@ -187,8 +187,8 @@
 
         // Store score in localStorage and Firebase
         function storeScore(score, maxScore) {
-            localStorage.setItem('level1_score', score);
-            localStorage.setItem('level1_max_score', maxScore);
+            localStorage.setItem('level3_score', score);
+            localStorage.setItem('level3_max_score', maxScore);
 
             // If score is not 0, update Firebase
             if (parseInt(score) > 0) {
@@ -197,10 +197,10 @@
                     const userRef = db.collection("users").doc(playerId);
                     userRef.get().then((doc) => {
                         if (doc.exists) {
-                            const currentHighScore = doc.data().hightScore?.level1 || 0;
+                            const currentHighScore = doc.data().hightScore?.level3 || 0;
                             if (parseInt(score) > currentHighScore) {
                                 userRef.update({
-                                    "hightScore.level1": parseInt(score)
+                                    "hightScore.level3": parseInt(score)
                                 }).then(() => {
                                     console.log("Score updated in Firebase successfully");
                                 }).catch((error) => {
