@@ -24,7 +24,7 @@ app.config['PERMANENT_SESSION_LIFETIME'] = 1800  # 30 minutes
 # Initialize OpenRouter client
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key="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"
+    api_key="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"
 )
 
 # Pre-defined questions for Level 1 (Money Basics)
@@ -1018,7 +1018,7 @@ Return only the JSON object."""
         feedback = json.loads(feedback_json)
 
         # Add a small delay to avoid rate limits
-        time.sleep(1)
+        time.sleep(5)
 
         return feedback
 
@@ -1034,5 +1034,5 @@ Return only the JSON object."""
         }
 
 # Run the Flask app
-if __name__ == "__main__":
-    app.run(debug=True)
+# if __name__ == "__main__":
+#     app.run(debug=True)

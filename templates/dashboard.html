@@ -310,10 +310,10 @@
     <h3 class="mb-4">Your High Scores</h3>
     <div class="score-card">
       <div class="score-box" data-aos="zoom-in" data-aos-delay="100">Level 1: <span id="score1">{{ level1_score }}</span></div>
-      <div class="score-box" data-aos="zoom-in" data-aos-delay="200">Level 2: <span id="score2">0</span></div>
-      <div class="score-box" data-aos="zoom-in" data-aos-delay="300">Level 3: <span id="score3">0</span></div>
-      <div class="score-box" data-aos="zoom-in" data-aos-delay="400">Level 4: <span id="score4">0</span></div>
-      <div class="score-box" data-aos="zoom-in" data-aos-delay="500">Level 5: <span id="score5">0</span></div>
+      <div class="score-box" data-aos="zoom-in" data-aos-delay="200">Level 2: <span id="score2">{{ level2_score }}</span></div>
+      <div class="score-box" data-aos="zoom-in" data-aos-delay="300">Level 3: <span id="score3">{{ level3_score }}</span></div>
+      <div class="score-box" data-aos="zoom-in" data-aos-delay="400">Level 4: <span id="score4">{{ level4_score }}</span></div>
+      <div class="score-box" data-aos="zoom-in" data-aos-delay="500">Level 5: <span id="score5">{{ level5_score }}</span></div>
     </div>
 
     <script>
@@ -477,11 +477,11 @@
           const userData = doc.data();
           document.getElementById("userName").textContent = userData.name || "N/A";
           document.getElementById("userEmail").textContent = userData.email || "N/A";
-          document.getElementById("score1").textContent = userData.hightScore?.level1 ?? 0;
-          document.getElementById("score2").textContent = userData.hightScore?.level2 ?? 0;
-          document.getElementById("score3").textContent = userData.hightScore?.level3 ?? 0;
-          document.getElementById("score4").textContent = userData.hightScore?.level4 ?? 0;
-          document.getElementById("score5").textContent = userData.hightScore?.level5 ?? 0;
+          // document.getElementById("score1").textContent = userData.hightScore?.level1 ?? 0;
+          // document.getElementById("score2").textContent = userData.hightScore?.level2 ?? 0;
+          // document.getElementById("score3").textContent = userData.hightScore?.level3 ?? 0;
+          // document.getElementById("score4").textContent = userData.hightScore?.level4 ?? 0;
+          // document.getElementById("score5").textContent = userData.hightScore?.level5 ?? 0;
         } else {
           document.getElementById("userName").textContent = "User Not Found";
           document.getElementById("userEmail").textContent = "User Not Found";
